@@ -4,9 +4,9 @@ export const getPosts = async (req, res) => {
     try {
         const PostMessages = await PostMessage.find();
         console.log(PostMessages);
-        res.statusCode(200).json(PostMessages);
+        res.status(200).json(PostMessages);
     } catch (error) {
-        res.statusCode(404).json({message: error.message});
+        res.status(404).json({message: error.message});
     }
 };
 
