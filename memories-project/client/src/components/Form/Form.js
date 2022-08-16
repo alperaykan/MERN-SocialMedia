@@ -1,8 +1,13 @@
 import React from "react";
+import useStyles from './Form.module.styles';
 
 const Form = () => {
+    const classes = useStyles();
     return (
-        <h2>Form</h2>
+        <>
+            <h2 >Form</h2>
+        </>
+
     )
 };
 export default Form;
