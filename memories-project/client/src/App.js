@@ -7,6 +7,7 @@ import useStyles from "./styles";
 import {useDispatch} from "react-redux";
 import {getPosts} from './redux/actions/posts';
 
+
 const App = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
