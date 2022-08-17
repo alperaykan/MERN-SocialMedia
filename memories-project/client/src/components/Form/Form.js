@@ -2,9 +2,13 @@ import React, {useState} from "react";
 import useStyles from './Form.module.styles';
 import {TextField, Typography, Button, Paper} from "@material-ui/core";
 import FileBase from 'react-file-base64';
+import {useDispatch} from "react-redux";
+import {createPost} from "../../redux/actions/posts";
+
 
 const Form = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     const [postData, setPostData] = useState({
         creator: '',
@@ -14,18 +18,20 @@ const Form = () => {
         selectedFile: ''
     });
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(createPost(postData));
     };
 
-    const clear = () => {
-
-    }
+    const clear = (e) => {
+        e.preventDefault();
+    };
 
     return (
         <>
             <Paper className={classes.paper}>
-                <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
+                <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`}
+                      onSubmit={handleSubmit}>
 
                     <Typography variant='h6'>Create a Memory</Typography>
 
@@ -36,7 +42,6 @@ const Form = () => {
                         name='creator'
                         value={postData.creator}
                         onChange={(e) => {
-                            console.log(e.target.value);
                             setPostData({...postData, creator: e.target.value})
                         }}
                     />
@@ -48,7 +53,6 @@ const Form = () => {
                         name='title'
                         value={postData.title}
                         onChange={(e) => {
-                            console.log(e.target.value);
                             setPostData({...postData, title: e.target.value})
                         }}
                     />
@@ -60,7 +64,6 @@ const Form = () => {
                         name='message'
                         value={postData.message}
                         onChange={(e) => {
-                            console.log(e.target.value);
                             setPostData({...postData, message: e.target.value})
                         }}
                     />
@@ -73,7 +76,6 @@ const Form = () => {
                         inputMode='multiple'
                         value={postData.tags}
                         onChange={(e) => {
-                            console.log(e.target.value);
                             setPostData({...postData, tags: e.target.value})
                         }}
                     />
