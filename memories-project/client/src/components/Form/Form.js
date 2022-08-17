@@ -93,7 +93,7 @@ const Form = ({currentId, setCurrentId}) => {
                         inputMode='multiple'
                         value={postData.tags}
                         onChange={(e) => {
-                            setPostData({...postData, tags: e.target.value})
+                            setPostData({...postData, tags: e.target.value.split(',')})
                         }}
                     />
 
