@@ -1,15 +1,12 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import useStyles from './Form.module.styles';
 import {TextField, Typography, Button, Paper} from "@material-ui/core";
 import FileBase from 'react-file-base64';
-import {useDispatch} from "react-redux";
-import {createPost} from "../../redux/actions/posts";
+import {useDispatch, useSelector} from "react-redux";
+import {createPost, updatePost} from "../../redux/actions/posts";
 
 
-const Form = () => {
-    const classes = useStyles();
-    const dispatch = useDispatch();
-
+const Form = ({currentId, setCurrentId}) => {
     const [postData, setPostData] = useState({
         creator: '',
         title: '',
@@ -17,14 +14,34 @@ const Form = () => {
         message: '',
         selectedFile: ''
     });
+    const classes = useStyles();
+    const dispatch = useDispatch();
+
+    const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);
+
+    useEffect(() => {
+        if (post) setPostData(post);
+    }, [post]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createPost(postData));
+        if (currentId) {
+            dispatch(updatePost(currentId, postData));
+        } else {
+            dispatch(createPost(postData));
+        }
+        clear();
     };
 
-    const clear = (e) => {
-        e.preventDefault();
+    const clear = () => {
+        setCurrentId(null);
+        setPostData({
+            creator: '',
+            title: '',
+            tags: '',
+            message: '',
+            selectedFile: ''
+        });
     };
 
     return (
@@ -33,7 +50,7 @@ const Form = () => {
                 <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`}
                       onSubmit={handleSubmit}>
 
-                    <Typography variant='h6'>Create a Memory</Typography>
+                    <Typography variant='h6'>{(currentId) ? 'Edit a Memory' : 'Create a Memory'}</Typography>
 
                     <TextField
                         variant='outlined'
